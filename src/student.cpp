@@ -67,6 +67,12 @@ using namespace std;
 //     preorder(&satu);      // mencetak:  42
 // =============================================================================
 void preorder(const Node* root) {
+    if (root == nullptr) {
+        return;
+    }
+    std::cout << root->data << " ";
+    preorder(root->left);
+    preorder(root->right);
 }
 
 // =============================================================================
@@ -90,6 +96,12 @@ void preorder(const Node* root) {
 //     inorder(NULL);     // tidak mencetak apa pun
 // =============================================================================
 void inorder(const Node* root) {
+    if (root == nullptr) {
+        return;
+    }
+    inorder(root->left);
+    std::cout << root->data << " ";
+    inorder(root->right);
 }
 
 // =============================================================================
@@ -114,6 +126,12 @@ void inorder(const Node* root) {
 //     postorder(NULL);   // tidak mencetak apa pun
 // =============================================================================
 void postorder(const Node* root) {
+    if (root == nullptr) {
+        return;
+    }
+    postorder(root->left);
+    postorder(root->right);
+    std::cout << root->data << " ";
 }
 
 // =============================================================================
@@ -140,6 +158,16 @@ void postorder(const Node* root) {
 //     clear(root);              // aman, tidak terjadi apa-apa
 // =============================================================================
 void clear(Node*& root) {
+    if (root == nullptr) {
+        return;
+    }
+    // Hapus cabang kiri dan kanan terlebih dahulu (Postorder)
+    clear(root->left);
+    clear(root->right);
+    
+    // Hapus node saat ini dari memori dinamis
+    delete root;
+    root = nullptr;
 }
 
 // =============================================================================
@@ -177,7 +205,15 @@ void clear(Node*& root) {
 //     3                           masih punya satu cabang)
 // =============================================================================
 int jumlahDaun(const Node* root) {
-    return 0;
+    if (root == nullptr) {
+        return 0;
+    }
+    // Base case: Node tidak memiliki cabang kiri maupun kanan (daun)
+    if (root->left == nullptr && root->right == nullptr) {
+        return 1;
+    }
+    // Rekursi untuk menjumlahkan daun dari subtree kiri dan kanan
+    return jumlahDaun(root->left) + jumlahDaun(root->right);
 }
 
 // =============================================================================
